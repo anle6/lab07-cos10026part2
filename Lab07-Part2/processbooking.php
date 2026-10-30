@@ -21,7 +21,24 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $bookingOptions = [
+            'accom' => 'Accommodation',
+            '4day' => '4 Day Tour',
+            '10day' => '10 Day Tour'
+        ];
+        $bookedTours = [];
+        foreach ($bookingOptions as $field => $tour) {
+            if (isset($_POST[$field])) {
+                $bookedTours[] = $tour;
+            }
+        }
+
         echo '<p>Welcome, ' . bookingValue('firstname') . ' ' . bookingValue('lastname') . '.</p>';
+        if (count($bookedTours) > 0) {
+            echo '<p>You have booked this tour: ' . htmlspecialchars(implode(', ', $bookedTours), ENT_QUOTES, 'UTF-8') . '.</p>';
+        } else {
+            echo '<p>You have not booked any tour options.</p>';
+        }
         echo '<h2>Booking details</h2>';
         echo '<ul>';
         echo '<li>First name: ' . bookingValue('firstname') . '</li>';
